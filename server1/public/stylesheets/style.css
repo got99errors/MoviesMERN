@@ -1,0 +1,146 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #FFCC00;
+  color: blue;
+  margin: 0 auto;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.user_cell {
+  padding: 20px;
+  border-width: 2;
+  border-radius: 12px;
+  background-color: blue;
+  color: #FFCC00;
+}
+
+.user_cell .cell_fields {
+  padding-bottom: 5px;
+}
+
+.user_cell label {
+  margin-bottom: 5px;
+}
+
+.main_nav button {
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.sub_nav button {
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+.main_nav_button {
+  background-color: #FFCC00;
+  border-radius: 4px;
+  border-color: blue;
+  color: blue;
+}
+
+.sub_nav_button {
+  background-color: #FFCC00;
+  border-radius: 4px;
+  border-color: blue;
+  color: blue;
+}
+
+.findInput {
+  padding: 12px 20px;
+  margin: 4px 2px;
+  font-size: 16px;
+}
+
+.user_cell input[type=submit] {
+  background-color: blue;
+  border-color: #FFCC00;
+  border-radius: 4px;
+  color: #FFCC00;
+  padding: 5px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 100px;
+}
+
+.movie_cell_history {
+  display: inline-block;
+}
+
+.member_watch_list_box {
+  border: 1px solid #FFCC00;
+  border-radius: 4px;
+  padding: 5px;
+  margin-top: 5px;
+}
+
+input {
+  background-color: #FFCC00;
+  color: blue;
+}
+
+.login_box input {
+  margin: 5px;
+  background-color: #FFCC00;
+  color: blue;
+  border-radius: 5px;
+  border-color: blue;
+  padding: 2px;
+}
+
+button, .login_button {
+  background-color: #FFCC00;
+  border-radius: 4px;
+  border-color: blue;
+  color: blue;
+  padding: 8px 26px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 14px 2px;
+  cursor: pointer;
+}
+
+.main_nav_button_selected, .sub_nav_button_selected {
+  background-color: blue;
+  border-color: #FFCC00;
+  border-radius: 4px;
+  color: #FFCC00;
+}
+
+hr {
+  color: blue;
+}
+
+.errorMessage {
+  color: red;
+}
+
+form {
+  background-color: blue;
+  color:  #FFCC00;
+  padding: 10px;
+}

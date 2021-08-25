@@ -1,0 +1,45 @@
+version: "3"
+services:
+    react-app:
+        image: react-app
+        build: ./client/
+        stdin_open: true
+        tty: true
+        ports: 
+            - "3003:3003"
+        networks: 
+            - subscriberz
+        depends_on: 
+            - api-server
+    api-server:
+        image: api-server
+        build: ./server1/
+        ports:
+            - "3001:3001"
+        networks: 
+            - subscriberz
+        depends_on: 
+            - mongo
+    data-server:
+        image: data-server
+        build: ./server2/
+        ports:
+            - "3000:3000"
+        networks: 
+            - subscriberz
+        depends_on: 
+            - mongo
+    mongo:
+        image: mongo:4.4-bionic
+        ports: 
+            - "27017:27017"
+        networks: 
+            - subscriberz
+        volumes: 
+            - mongo-data:/data/db
+networks:
+    subscriberz:
+        driver: bridge
+volumes:
+    mongo-data:
+        driver: local

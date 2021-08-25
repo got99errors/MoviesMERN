@@ -1,0 +1,54 @@
+const axios = require('axios');
+const sourcePath = 'http://localhost:3000/api/subscriptions';
+
+exports.getAllSubscriptions = () => {
+    console.log('👻 getting subscriptions');
+    return new Promise(async (resolve, reject) => {
+        let res = await axios.get(sourcePath);
+        if (res.data) {
+            resolve(res.data);
+        } else {
+            reject({});
+        }
+    });
+}
+
+exports.subscribeToMovie = (subId, movieId, date) => {
+    console.log('👻 ');
+    return new Promise(async (resolve, reject) => {
+        let res = await axios.put(sourcePath+"/"+subId, {movieId: movieId, date: date});
+        if (res.data) {
+            resolve(res.data);
+        } else {
+            reject({});
+        }
+    })
+};
+
+// update all subscriptions after a movie is removed from the website's movies section
+exports.removeMovie = (movieId) => {
+    return new Promise(async (resolve, reject) => {
+        console.log('👻 Removing movie '+movieId);
+        
+        let res = await axios.put(sourcePath+"/removeMovie/"+movieId);
+        if (res.data) {
+            resolve(res.data);
+        } else {
+            reject({});
+        }
+    })
+}
+
+// update all subscriptions after a member is removed from the website's members section
+exports.removeMember = (memberId) => {
+    return new Promise(async (resolve, reject) => {
+        console.log('👻 Removing member '+memberId);
+        
+        let res = await axios.put(sourcePath+"/removeMember/"+memberId);
+        if (res.data) {
+            resolve(res.data);
+        } else {
+            reject({});
+        }
+    })
+}

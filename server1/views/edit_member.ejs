@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+
+    <script>
+      function toggleVisibility(id) {
+        var moviePicker = document.getElementById(id);
+        if (moviePicker.style.display === "none") {
+          moviePicker.style.display = "block";
+        } else {
+          moviePicker.style.display = "none";
+        }
+      }
+
+      function subscribeToMovie(movieId) {
+        let id = "movieSelector"+movieId;
+        var movieSelector = document.getElementById(id);
+        var selectedMovieId = movieSelector.options[movieSelector.selectedIndex].id;
+      }
+    </script>
+    <%- include('./template/header', {user: user}) -%>
+    <%- include('./template/nav', {user: user, selected: "members"})-%>
+    <br/>
+    <div class="user_cell">
+        <!-- General details -->
+        <h3> <%= member.Name %> </h3><br/>
+        <form>
+        <h4>Name : <input type="text" name="Name" value="<%= member.Name %>" /></h4>
+        <h4>Email : <input type="text" name="Email" value="<%= member.Email %>" /></h4>
+        <h4>City : <input type="text" name="City" value="<%= member.City %>" /></h4>
+          
+        <!-- Edit Buttons -->
+        
+          <input type="submit" formaction="/members/edit/<%= member._id %>" formmethod="POST" value="Update" />
+          <input type="submit" formaction="/members" formmethod="GET" value="Cancel" />
+        </form>
+
+        
+    </div><br/>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <%- include('./template/header', {user: user}) -%>
+    <%- include('./template/nav', {user: user, selected: "movies"})-%>
+    <br/>
+    <%- include('./template/movies_nav', {user: user, selected: "add"})-%><br/>
+    <div>
+        <!-- General details -->
+        <h3> Add a New Movie </h3><br/>
+        <form>
+          Name : <input type="text" name="name" /> <br/>
+          Genres : <input type="text" name="genres" /> <br/>
+          Image URL : <input type="text" name="image" /> <br/>
+          Premiered : <input type="text" name="year" /> <br/>
+        <!-- Edit Buttons -->
+        
+          <input type="submit" formaction="/movies/edit/" formmethod="POST" value="Save" />
+          <input type="submit" formaction="/movies" formmethod="GET" value="Cancel" />
+        </form>
+
+        
+    </div><br/>
+  </body>
+</html>
