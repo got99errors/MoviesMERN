@@ -1,4 +1,4 @@
-The project is a website titled “Subscribers” for movies subscription management.
+The project is a website titled “Subscriberz” for movies subscription management.
 The admin, which is parallel to the business manager, can perform CRUD action on the users(employees) and set them permissions.
 Users can perform CRUD actions on the movies inventory and the subscribers, according to each user’s permissions.
 The first user is the admin.
