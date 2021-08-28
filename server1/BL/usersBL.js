@@ -12,7 +12,7 @@ exports.canLogin = (loginDetails) => {
 		console.log("👻 username pass: " + username + password);
 
 		if (username.length > 0 && password.length > 0) {
-			userLoginModel.find({ UserName: username }, (err, objs) => {
+			userLoginModel.find({ Username: username }, (err, objs) => {
 				if (err) {
 					reject(err);
 				} else {
@@ -20,7 +20,7 @@ exports.canLogin = (loginDetails) => {
 						console.log("👻 object: %j", objs);
 						let user = objs[0];
 						console.log(
-							"👻 found user with UserName " +
+							"👻 found user with Username " +
 								username +
 								" pass " +
 								user.Password
@@ -48,7 +48,7 @@ exports.canLogin = (loginDetails) => {
 // Prepare the session for this user
 exports.userDidLogin = (request, username) => {
 	return new Promise(async (resolve, reject) => {
-		userLoginModel.find({ UserName: username }, async (err, dbUsers) => {
+		userLoginModel.find({ Username: username }, async (err, dbUsers) => {
 			if (err) {
 				reject(err);
 			} else {
@@ -99,7 +99,7 @@ exports.validateNewAccount = (loginDetails) => {
 		} else if (password == "newUser") {
 			resolve("Please enter a different password...");
 		} else {
-			userLoginModel.find({ UserName: username }, (err, res) => {
+			userLoginModel.find({ Username: username }, (err, res) => {
 				if (err) {
 					reject(err);
 				} else {
@@ -110,7 +110,7 @@ exports.validateNewAccount = (loginDetails) => {
 							// update the new password
 							userLoginModel.findByIdAndUpdate(
 								res[0]._id,
-								{ UserName: username, Password: password },
+								{ Username: username, Password: password },
 								(err, obj) => {
 									if (err) {
 										reject(err);
@@ -157,7 +157,7 @@ exports.getUsers = () => {
 				let filteredUsers = docs.filter((doc) => doc._id == user.id);
 
 				if (filteredUsers.length > 0) {
-					outputUser.username = filteredUsers[0].UserName;
+					outputUser.username = filteredUsers[0].Username;
 				}
 				return outputUser;
 			});
@@ -228,14 +228,14 @@ exports.checkUserForm = (form, isNewUser) => {
 		} else {
 			// let permissions = createUserPermissions(form);
 			userLoginModel.find(
-				{ UserName: form.user.username },
+				{ Username: form.user.username },
 				async (err, res) => {
 					if (res.length > 0 && isNewUser) {
 						resolve("User name already exists.");
 					} else {
 						if (isNewUser) {
 							let newUser = new userLoginModel({
-								UserName: form.user.username,
+								Username: form.user.username,
 								Password: "newUser",
 							});
 							newUser.save(async (err, doc) => {
