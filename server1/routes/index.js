@@ -22,7 +22,7 @@ router.get('/', async function(req, res, next) {
     if (req.query.error) {
       errorMessage = req.query.error;
     }
-    res.render('main', {title: "Block Blister", user:user, error: errorMessage});
+    res.render('main', {title: "Subscriberz", user:user, error: errorMessage});
   } else {
     res.redirect('login');
   }
