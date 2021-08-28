@@ -13,12 +13,9 @@ The project is consisted of 3 components:
 3. Server2 - REST api for Server1 + manages Subscriptions database
 
 How to run the project:
-1. Seeding the database with properties for admin user:
-    1. On UsersDB add a first record with username and password of your choice
-    2. In ‘Permissions’ and ‘User’ JSON files, updated the admin’s id with the ‘_id’ field of the record you created in the database.
-2. Run ’npm install’ for each of the components: server2, server1 and client.
-3. Run ‘npm start’ on server2 and browse ‘localhost:3000’ and refresh once.
-4. Run ‘npm start’ on server1 and client.
-5. Browse ‘localhost:3002’ (or any other port specified by the client log)
+1. Run ’npm install’ for each of the components: server2, server1 and client.
+2. Run ‘npm start’ on server2 and browse ‘localhost:3000’ and refresh once.
+3. Run ‘npm start’ on server1 and client.
+4. Browse ‘localhost:3002’ (or any other port specified by the client log)
 
 The project’s next stage would be to automate as much as possible all of the above :)
