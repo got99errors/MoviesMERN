@@ -6,7 +6,7 @@ services:
         stdin_open: true
         tty: true
         ports: 
-            - "3003:3003"
+            - "3000:3000"
         networks: 
             - subscriberz
         depends_on: 
@@ -24,7 +24,7 @@ services:
         image: data-server
         build: ./server2/
         ports:
-            - "3000:3000"
+            - "3002:3002"
         networks: 
             - subscriberz
         depends_on: 
