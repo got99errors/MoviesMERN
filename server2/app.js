@@ -17,10 +17,6 @@ app.use(bodyParser.urlencoded({extended : true})).use(bodyParser.json())
 // connect to database
 require('./configs/database');
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
