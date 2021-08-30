@@ -1,5 +1,6 @@
 const axios = require('axios');
-const sourcePath = 'http://localhost:3000/api/members';
+const dal = require('../configs/DAL')
+const sourcePath = dal.base_url + '/members';
 
 exports.getAllMembers = () => {
     console.log('👻 getting members');

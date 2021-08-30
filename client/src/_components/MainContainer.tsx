@@ -21,7 +21,7 @@ import theme from "../theme";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
-		backgroundColor: "#FAF55A",
+		backgroundColor: "transparent",
 	},
 }));
 

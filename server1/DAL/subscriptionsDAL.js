@@ -1,5 +1,7 @@
 const axios = require('axios');
-const sourcePath = 'http://localhost:3000/api/subscriptions';
+const { DAL_BASE_URL } = require('../configs/DAL');
+const dal = require('../configs/DAL')
+const sourcePath = dal.base_url + '/subscriptions';
 
 exports.getAllSubscriptions = () => {
     console.log('👻 getting subscriptions');

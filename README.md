@@ -12,7 +12,7 @@ The project is consisted of 3 components:
 2. Server1 - REST api for client side + manages UsersDB database and 2 local JSON files: Permissions and Users(contains user details)
 3. Server2 - REST api for Server1 + manages Subscriptions database
 
-How to run the project:
+####How to run the project:
 1. Run ’npm install’ for each of the components: server2, server1 and client.
 2. Run ‘npm start’ on server2 and browse ‘localhost:3000’ and refresh once.
 3. Run ‘npm start’ on server1 and client.

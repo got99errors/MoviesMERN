@@ -1,3 +1,12 @@
 {
-    "users": []
+    "users": [
+        {
+            "id": "612a7f544110376167d5b243",
+            "username": "admin",
+            "first_name": "admin",
+            "last_name": "admin",
+            "created_date": 1630175060825,
+            "session_timeout": 1000
+        }
+    ]
 }

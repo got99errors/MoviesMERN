@@ -1,5 +1,6 @@
 const axios = require('axios');
-const sourcePath = 'http://localhost:3000/api/movies';
+const dal = require('../configs/DAL')
+const sourcePath = dal.base_url + '/movies';
 
 exports.getAllMovies = () => {
     return new Promise( async (resolve, reject) => {
