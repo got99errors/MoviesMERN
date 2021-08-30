@@ -14,8 +14,8 @@ The project is consisted of 3 components:
 
 ####How to run the project:
 1. Run ’npm install’ for each of the components: server2, server1 and client.
-2. Run ‘npm start’ on server2 and browse ‘localhost:3000’ and refresh once.
+2. Run ‘npm start’ on server2 and browse ‘localhost:3002’ and refresh once.
 3. Run ‘npm start’ on server1 and client.
-4. Browse ‘localhost:3002’ (or any other port specified by the client log)
+4. Browse ‘localhost:3000’ (or any other port specified by the client log)
 
 The project’s next stage would be to automate as much as possible all of the above :)

@@ -1,0 +1,26 @@
+{
+  "name": "FSProj1",
+  "version": "1.0.0",
+  "description": "The project is a website titled “Subscriberz” for movies subscription management. The admin, which is parallel to the business manager, can perform CRUD action on the users(employees) and set them permissions. Users can perform CRUD actions on the movies inventory and the subscribers, according to each user’s permissions. The first user is the admin.",
+  "main": "index.js",
+  "scripts": {
+    "install_run_dev": "concurrently \"cd server2 && npm install && npm run dev\" \"cd server1 && npm install && npm run dev\" \"cd client && npm install && npm start\"",
+    "dev": "concurrently \"cd server2 && npm run dev\" \"cd server1 && npm run dev\" \"cd client && npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/got99errors/MoviesMERN.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/got99errors/MoviesMERN/issues"
+  },
+  "homepage": "https://github.com/got99errors/MoviesMERN#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^6.2.1"
+  }
+}
