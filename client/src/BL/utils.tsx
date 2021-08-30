@@ -38,8 +38,6 @@ function login(username: string, password: string) {
 			if (!user.error) {
 				// store user details and jwt token in local storage to keep user logged in between page refreshes
 				localStorage.setItem("user", JSON.stringify(user));
-				console.log('user.details.session_timeout: '+user.details.session_timeout);
-				console.log('new Date().getTime(): %j',new Date().getTime());
 				localStorage.setItem("session_timeout", String(new Date().getTime() + user.details.session_timeout*60*1000))
 			}
 
@@ -91,8 +89,6 @@ function addUser(user: User) {
 	return fetch(`${baseURL}/users/add_user`, requestOptions)
 		.then(handleResponse)
 		.then((users) => {
-			console.log("added user - updated user list:", users);
-
 			return users;
 		});
 }
@@ -168,7 +164,6 @@ function addMovie(movie: Movie) {
 	return fetch(`${baseURL}/movies/add_movie`, requestOptions)
 		.then(handleResponse)
 		.then((movies) => {
-			// console.log("added movie - updated movie list:",movies);
 			return movies;
 		});
 }
@@ -250,7 +245,6 @@ function addMember(member: Member) {
 	return fetch(`${baseURL}/members/add_member`, requestOptions)
 		.then(handleResponse)
 		.then((members) => {
-			// console.log("added member - updated member list:",members);
 			return members;
 		});
 }
@@ -282,22 +276,6 @@ function updateMember(member: Member) {
 		});
 }
 
-/* todo: 
-function updateItem(item: any, path: string) {
-	const requestOptions = {
-		method: "PUT",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify({ item })
-	};
-
-	return fetch(`${baseURL}${path}`, requestOptions)
-		.then(handleResponse)
-		.then((items) => {
-			return items;
-		});
-}
-*/
-
 export interface MovieSubscription {
 	subId: string;
 	movieId: string;
@@ -326,7 +304,6 @@ function handleResponse(response: any) {
 				logout();
 				// location.reload(true);
 			}
-			console.log("data: %j", data);
 			const error =
 				(data && data.message && !data.error) || response.statusText;
 			return Promise.reject(error);

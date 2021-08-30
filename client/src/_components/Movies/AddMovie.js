@@ -71,12 +71,6 @@ const AddMovieComp = (props) => {
 		);
 
 		if (targetMovie) {
-			console.log(
-				"AddMovie targetMovie year type: " +
-					typeof targetMovie.year +
-					" value: " +
-					targetMovie.year
-			);
 			movie = {
 				title: targetMovie.title,
 				genres: targetMovie.genres.toString(),

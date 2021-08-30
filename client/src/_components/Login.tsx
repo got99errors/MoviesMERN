@@ -36,7 +36,6 @@ const LoginComp = (props: any) => {
 	const location = useLocation();
 	const error = useSelector((state: any) => state.authReducer.error);
 	const [errorMessage, setErrorMessage] = useState(error);
-	console.log("LoginComp error: %j", error);
 	const classes = useStyles();
 
 	const onChangeHandle = (e: React.ChangeEvent<HTMLInputElement>) => {

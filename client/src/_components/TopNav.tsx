@@ -48,7 +48,6 @@ const TopNavComp = () => {
 	);
 	const menuSelection = useSelector((state: any) => state.menuReducer.selected)
 	const classes = useStyles();
-	console.log("TopNavComp user: %j",user);
 	
 	return (
 		<nav className={classes.nav}>

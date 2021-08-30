@@ -21,7 +21,7 @@ exports.getAll = () => {
                         // Insert object
                         newMember.save((err, newMember) => {
                             if (err) {
-                                console.log('👻 saved member error: ' + err);
+                                console.error('👻 saved member error: ' + err);
                             }
                         });
                     });
@@ -65,14 +65,12 @@ exports.addItem = (obj) => {
             Email: obj.member.email,
             City: obj.member.city
         });
-        console.log('👻 addItem Will create item %j', shapedObj);
         
         // Insert object
         shapedObj.save(async (err, newMember) => {
             if (err) {
-                console.log('👻 addItem saved member error: ' + err);
+                console.error('👻 addItem saved member error: ' + err);
             } else {
-                console.log('👻 addItem did create item %j', newMember);
                 resolve(newMember);
             }
         });
@@ -80,13 +78,11 @@ exports.addItem = (obj) => {
 }
 
 exports.updateItem = (id, obj) => {
-    console.log('👻 obj: %, %',obj,id);
     let shapedObj = {
         Name: obj.member.name,
         Email: obj.member.email,
         City: obj.member.city
     };
-    console.log('👻 shapedObj: %',shapedObj);
     return new Promise ( async (resolve, reject) => {
         Model.findByIdAndUpdate(id, shapedObj, async (err) => {
             if (err) {
@@ -94,7 +90,6 @@ exports.updateItem = (id, obj) => {
                 console.error('👻 updateItem: %',err);
                 
             } else {
-                console.log('👻 updateItem success');
                 let items = await this.getAll();
                 resolve(items);
             }

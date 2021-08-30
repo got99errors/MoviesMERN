@@ -20,7 +20,6 @@ const MembersComp = (props: any) => {
 	const [deleted, setDeleted] = useState(false);
 	const user = useSelector((state: any) => state.authReducer.user);
 
-	console.log("MembersComp memberId = %j", memberId);
 	// display selected member if there is any
 	if (
 		memberId !== undefined &&
@@ -49,7 +48,6 @@ const MembersComp = (props: any) => {
 			handleClick();
 			setDeleted(false);
 		}
-		console.log("Members useEff[members]");
 	}, [filteredMembers, deleted]);
 
 	const editMember = (member: any) => {

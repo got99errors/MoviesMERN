@@ -5,10 +5,7 @@ const subscriptionsDAL = require('../DAL/subscriptionsDAL')
 exports.getAllMovies = () => {
     return new Promise( async (resolve, reject) => {
         try {
-
-            console.log('all movies: soon');
             let allMovies = await moviesDAL.getAllMovies();
-            console.log('all movies: ', allMovies.length);
             let allSubscriptions = await subscriptionsDAL.getAllSubscriptions();
             let allMembers = await membersDAL.getAllMembers();
             let data = allMovies.map(movie => {
@@ -33,7 +30,7 @@ exports.getAllMovies = () => {
             })
             resolve(data);
         } catch(err) {
-            console.log('👻 rejected: %j',err);
+            console.error('👻 rejected: %j',err);
             reject(err);
         }
         
@@ -43,8 +40,6 @@ exports.getAllMovies = () => {
 // returns a single movie
 exports.getMovie = (id) => {
     return new Promise( async (resolve, reject) => {
-        console.log('👻 get movie');
-        
         let movie = await moviesDAL.getMovie(id);
         resolve(movie);
     });
@@ -54,7 +49,6 @@ exports.getMovie = (id) => {
 exports.getSelectedMovie = (id) => {
     return new Promise( async (resolve, reject) => {
         try {
-            console.log('👻 get selected movie');
             let targetMovie = await moviesDAL.getMovie(id);
             let movies = [targetMovie];
             let subscriptions = await subscriptionsDAL.getAllSubscriptions();
@@ -82,7 +76,7 @@ exports.getSelectedMovie = (id) => {
             })
             resolve(data);
         } catch(err) {
-            console.log('👻 rejected: %j',err);
+            console.error('👻 rejected: %j',err);
             reject(err);
         }
         
@@ -99,7 +93,6 @@ exports.findMovies = (searchText) => {
 }
 
 exports.updateMovie = (data) => {
-    console.log('👻 update item data %j', data);
     return new Promise( async (resolve, reject) => {
         let movie = await moviesDAL.updateMovie(data.id, data);
         if (movie) {
@@ -111,7 +104,6 @@ exports.updateMovie = (data) => {
 }
 
 exports.createMovie = (data) => {
-    console.log('👻 add item data %j', data);
     return new Promise( async (resolve, reject) => {
         let movie = await moviesDAL.createMovie(data);
         if (movie) {
@@ -123,22 +115,11 @@ exports.createMovie = (data) => {
 }
 
 exports.deleteMovie = (id) => {
-    console.log('👻 delete item: '+id);
     return new Promise( async (resolve, reject) => {
         let movie = await moviesDAL.deleteMovie(id);
         if (movie) {
             // remove movie from all subscriptions
             await subscriptionsDAL.removeMovie(id);
-
-            // let allSubscriptions = await subscriptionsDAL.getAllSubscriptions();
-            // console.log('👻 first sub before: %j',allSubscriptions[0]);
-            
-            // allSubscriptions.forEach(sub => {
-            //     let subMovies = sub.Movies.filter(movie => movie.movieId != id);
-            //     sub.Movies = subMovies;
-            // })
-            
-            // console.log('👻 first sub after: %j',allSubscriptions[0]);
             resolve(movie);
         } else {
             reject({});

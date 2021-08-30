@@ -1,8 +1,6 @@
 const Model = require("../models/subscriptionModel");
 
 exports.createDemo = (members, movies) => {
-	console.log("👻 members " + members.length);
-	console.log("👻 movies " + movies.length);
 	for (var i = 0; i < members.length; i++) {
 		let subscription = new Model({
             MemberId: members[i]._id,
@@ -10,7 +8,7 @@ exports.createDemo = (members, movies) => {
         });
         subscription.save((err, subscription) => {
             if (err) {
-                console.log("👻 saved subscription error: " + err);
+                console.error("👻 saved subscription error: " + err);
             }
         });
 	}
@@ -41,8 +39,6 @@ exports.getItemById = (id) => {
 };
 
 exports.addItem = (obj) => {
-	console.log("👻 adding subscription %j", obj);
-
 	return new Promise(async (resolve, reject) => {
 		// Create db object
 		let newItem = new Model({
@@ -52,7 +48,7 @@ exports.addItem = (obj) => {
 		// Insert object
 		newItem.save(async (err, newItem) => {
 			if (err) {
-				console.log("👻 saved new subscription error: " + err);
+				console.error("👻 saved new subscription error: " + err);
 			} else {
 				let items = await this.getAll();
 				resolve(items);
@@ -63,7 +59,6 @@ exports.addItem = (obj) => {
 
 exports.updateItem = (id, obj) => {
 	return new Promise(async (resolve, reject) => {
-		// console.log('👻 will update member '+id+' with data: '+obj.movieId+' '+obj.date);
 		Model.findById(id, async (err, item) => {
 			if (err) {
 				reject(err);
@@ -88,9 +83,6 @@ exports.removeMovie = (movieId) => {
 			if (err) {
 				reject(err);
 			} else {
-				// let items = await subscriptionsDAL.getAllSubscriptions();
-				console.log("👻 removeMovie - first sub before: %j", items[0]);
-
 				items.forEach((sub) => {
 					let subMovies = sub.Movies.filter((movie) => movie.movieId != movieId);
 					sub.Movies = subMovies;
@@ -114,26 +106,10 @@ exports.removeMember = (memberId) => {
 			if (err) {
 				reject(err);
 			} else {
-				// let items = await subscriptionsDAL.getAllSubscriptions();
-				console.log("👻 removeMember - first sub before: %j", items[0]);
 				let forDelete = []
 
 				// find all subscriptions with this member id (should be one)
 				let filteredSubsID = items.filter(sub => sub.MemberId === memberId).map(sub => sub._id);
-				console.log('👻 subscriptions to be deleted: %j', filteredSubsID);
-				
-				// remove subscriptions
-				// Model.deleteMany({
-				// 	_id: {
-				// 		$in: filteredSubsID
-				// 	}
-				// }, function(err, result) {
-				// 	if (err) {
-				// 	  res.send(err);
-				// 	} else {
-				// 	  res.send(result);
-				// 	}
-				//   });
                 let cleanItems = await this.getAll();
 				resolve(cleanItems);
 			}
@@ -142,7 +118,6 @@ exports.removeMember = (memberId) => {
 };
 
 exports.deleteItem = (id) => {
-	console.log("👻 subBL will delete id " + id);
 	return new Promise(async (resolve, reject) => {
 		Model.deleteOne({ MemberId: id }, async (err) => {
 			if (err) {
@@ -158,7 +133,6 @@ exports.deleteItem = (id) => {
 exports.deleteAll = () => {
     return new Promise( async (res, rej) => {
         Model.deleteMany({}, () => {
-            console.log('👻 removed all subs');
             resolve({})
         })
     })

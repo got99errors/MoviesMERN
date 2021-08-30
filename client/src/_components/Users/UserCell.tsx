@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
 const UserCellComp = (props: any) => {
 	const classes = useStyles();
 	const user = props.user;
-	// console.log("userzzz: %j",user);
 
 	const dateString = () => {
 		return new Date(user.created_date).toLocaleDateString("en-gb", {

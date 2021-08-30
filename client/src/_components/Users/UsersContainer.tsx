@@ -41,7 +41,6 @@ const UserContainerComp = (props: any) => {
 	const [value, setValue] = useState(0);
 	const dispatch = useDispatch();
 	const editedUser = useSelector((state: any) => state.usersReducer.editedUser);
-	// console.log("editedUser: %j", editedUser);
 	const users = useSelector((state: any) => state.usersReducer.users);
 	
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

@@ -17,8 +17,6 @@ router.get('/:id', async (req, res, next) => {
 
 // Create a new member
 router.post('/', async (req, res, next) => {
-  console.log('👻 members add item body %j', req.body);
-  
   let item = await bl.addItem(req.body);
   await subBL.addItem({MemberId: item._id, Movies:[]});
   let items = await bl.getAll();

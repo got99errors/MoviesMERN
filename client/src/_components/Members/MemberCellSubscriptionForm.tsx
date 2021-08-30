@@ -16,8 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			display: "flex",
 			flexGrow: 1,
 			overflow: "hidden",
-			// padding: theme.spacing(0, 3),
-			// margin: theme.spacing(0, 3),
 			listStyle: "none",
 			marginRight: "5px",
 		},
@@ -79,8 +77,6 @@ const SubscriptionForm = (props: any) => {
 			value: string;
 		}>
 	) => {
-		console.log("MemberCell handleChange: " + event.target.value);
-
 		setMovieId(event.target.value);
 	};
 
@@ -90,10 +86,6 @@ const SubscriptionForm = (props: any) => {
 		} else if (subDate !== undefined && subDate < new Date()) {
 			setSubError("Enter a future date");
 		} else {
-			console.log(
-				"Will sub to movie: " + movieId + " for member " + member.name
-			);
-
 			setSubError("");
 			dispatch(
 				memberActions.subscribeToMovie({

@@ -2,7 +2,6 @@ const moviesDAL = require('../dals/moviesDAL');
 const Model = require('../models/movieModel')
 
 exports.getAll = () => {
-    console.log('👻 getting movies');
 
     return new Promise(async (resolve, reject) => {
         Model.find({}, async (err, items) => {
@@ -10,8 +9,6 @@ exports.getAll = () => {
                 reject(err);
             } else {
                 if (items.length == 0) {
-                    console.log('👻 will populate db collection movies');
-
                     // db collection is empty, populate it
                     // fetch remote movies and populate collection
                     let movies = await moviesDAL.getMovies();
@@ -26,7 +23,7 @@ exports.getAll = () => {
                         // Insert object
                         newMovie.save((err, newMovie) => {
                             if (err) {
-                                console.log('👻 saved movie error: ' + err);
+                                console.error('👻 saved movie error: ' + err);
                             }
                         });
                     })
@@ -34,8 +31,6 @@ exports.getAll = () => {
                         if (err) {
                             reject(err);
                         } else {
-                            console.log('👻 dbMovies:' + dbMovies.length);
-
                             resolve(dbMovies);
                         }
                     });
@@ -44,8 +39,6 @@ exports.getAll = () => {
                         if (err) {
                             reject(err);
                         } else {
-                            console.log('👻 dbMovies:' + dbMovies.length);
-
                             resolve(dbMovies);
                         }
                     });
@@ -70,7 +63,6 @@ exports.getItemById = (id) => {
 exports.addItem = (obj) => {
     return new Promise ( async (resolve, reject) => {
         // Create db object
-        console.log('👻 will add item %j',obj);
         
         let newItem = new Model({
             Name: obj.name,
@@ -81,7 +73,7 @@ exports.addItem = (obj) => {
         // Insert object
         newItem.save(async (err, newItem) => {
             if (err) {
-                console.log('👻 saved movie error: ' + err);
+                console.error('👻 saved movie error: ' + err);
             } else {
                 let items = await this.getAll();
                 resolve(items);
@@ -92,10 +84,6 @@ exports.addItem = (obj) => {
 
 exports.updateItem = (id, obj) => {
     return new Promise ( async (resolve, reject) => {
-        console.log('👻 will update movie '+id);
-        console.log('👻 with data: %j',obj);
-        
-        
         Model.findByIdAndUpdate(id, obj, async (err) => {
             if (err) {
                 reject(err);

@@ -8,14 +8,12 @@ var moviesBL = require("../BL/moviesBL");
 let didSessionExpire = (session) => {return false;
 	if (session.cookie.expires == null) { return true;}
 	  let timeToExpire = (Date.parse(session.cookie.expires) - Date.now())/1000;
-	  console.log('👻 timeToExpire: '+timeToExpire);
 	  return timeToExpire == null ||timeToExpire == 'undefined' || timeToExpire < 0;
   }
 
 /* GET Subscriptions listing. */
 router.get("/", async function (req, res, next) {
 	let members = await membersBL.getAllMembers();
-	console.log('👻 members count '+members.length);
 	res.json(members);
 });
 
@@ -26,23 +24,9 @@ router.post("/subscribeToMovie", async (req, res, next) => {
 	res.json(members);
 });
 
-// render edit page
-// router.get("/edit/:id", async (req, res, next) => {
-// 	let timeToExpire = Date.parse(req.session.cookie.expires) - Date.now();
-// 	if (timeToExpire < 0) {
-// 		res.redirect("login");
-// 	} else {
-// 		let id = req.params.id;
-// 		let data = await membersBL.getMember(id);
-// 		let user = usersBL.sessionUser(req.session);
-// 		res.render("edit_member", { member: data, user: user });
-// 	}
-// });
-
 router.post("/add_member", async function (req, res, next) {
 	let isNewUser = true;
 	let data = await membersBL.createMember(req.body);
-	console.log("👻 createMember status: %" , status);
 
 	if (!data.error) {
 		res.redirect("/api/members");
@@ -54,7 +38,6 @@ router.post("/add_member", async function (req, res, next) {
 router.put("/update_member", async function (req, res, next) {
 	let isNewUser = true;
 	let data = await membersBL.updateMember(req.body);
-	console.log("👻 createMember data: %" , data);
 
 	if (!data.error) {
 		let members = await membersBL.getAllMembers();

@@ -2,8 +2,7 @@ import MemberCellComp from './MemberCell'
 
 const MemberRowComp = ({index, style, data}) => {
     let member = data.members[index]
-    console.log("MemberRowComp "+index);
-    console.log("MemberRowComp user %j",data.user);
+    
     return (
         <div key={index} style={style}>
             {/* {index} {member?.id} */}

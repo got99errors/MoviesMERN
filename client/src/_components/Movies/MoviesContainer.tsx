@@ -117,15 +117,11 @@ const MovieContainerComp = (props: any) => {
 	};
 
 	useEffect(() => {
-		// load movies
-		// dispatch(movieActions.getMovies());
 		dispatch(menuActions.selectedMovies())
 	}, [dispatch]);
 
 	useEffect(() => {
 		addedSuccessfully();
-		console.log("MoviesCont useEff[props]");
-		
 	}, [props]);
 
 	return (

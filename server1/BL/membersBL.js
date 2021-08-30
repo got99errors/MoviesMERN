@@ -6,11 +6,9 @@ exports.getAllMembers = () => {
     return new Promise( async (resolve, reject) => {
         try {
             let allMovies = await moviesDAL.getAllMovies();
-            // console.log('👻 first movie: %j',allMovies[0]);
-            
             let allSubscriptions = await subscriptionsDAL.getAllSubscriptions();
             let allMembers = await membersDAL.getAllMembers();
-            // console.log('👻 allMembers count '+allMembers.length);
+            
             // Data shaping
             let data = allSubscriptions.map(subscription => {
                     // get member's name, email & city
@@ -18,17 +16,9 @@ exports.getAllMembers = () => {
                     
                     // get movie names and sub' dates
                     let memberMovies = subscription.Movies.map(memberMovie => {
-                        // console.log('👻 memberMovie: %j',memberMovie);
-                        
                         let movieWatchDetails = allMovies.find(movie => {
                             return movie._id == memberMovie.movieId;
                         })
-                        // if (movieWatchDetails == undefined) return null;
-                        console.log('👻 movieWatchDetails: %j',movieWatchDetails);
-                        if (movieWatchDetails === undefined) {
-                            console.log('👻 memberMovie.movieId: '+memberMovie.movieId);
-                            
-                        }
                         return {id: movieWatchDetails._id, title: movieWatchDetails.Name, date: memberMovie.date};
                     });
                     
@@ -50,8 +40,6 @@ exports.getAllMembers = () => {
 }
 
 exports.subscribeToMovie = (data) => {
-    console.log('👻 sub to movie data: %j',data);
-    
     return new Promise (async (resolve, reject) => {
         try {
             const date = new Date();
@@ -80,7 +68,6 @@ exports.createMember = (data) => {
     return new Promise( async (resolve, reject) => {
         let member = await membersDAL.createMember(data);
         if (member) {
-            // let updatedMembers = await this.getAllMembers()
             resolve({});
         } else {
             reject({});
@@ -90,8 +77,6 @@ exports.createMember = (data) => {
 
 exports.updateMember = (data) => {
     return new Promise( async (resolve, reject) => {
-        console.log('👻 data: %',data);
-        
         let resData = await membersDAL.updateMember(data.member.id, data);
         if (!resData.error) {
             resolve(resData);

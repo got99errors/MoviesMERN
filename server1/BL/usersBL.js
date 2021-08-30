@@ -9,7 +9,6 @@ exports.canLogin = (loginDetails) => {
 	return new Promise((resolve, reject) => {
 		let username = loginDetails.username;
 		let password = loginDetails.password;
-		console.log("👻 username pass: " + username + password);
 
 		if (username.length > 0 && password.length > 0) {
 			userLoginModel.find({ Username: username }, (err, objs) => {
@@ -17,14 +16,7 @@ exports.canLogin = (loginDetails) => {
 					reject(err);
 				} else {
 					if (objs.length > 0) {
-						console.log("👻 object: %j", objs);
 						let user = objs[0];
-						console.log(
-							"👻 found user with Username " +
-								username +
-								" pass " +
-								user.Password
-						);
 						if (user.Password == password) {
 							resolve("ok");
 						} else {
@@ -56,7 +48,6 @@ exports.userDidLogin = (request, username) => {
 					let dbUser = dbUsers[0];
 					let userId = dbUser._id;
 					let usersDetails = await userDetailsDAL.getItems();
-					console.log("👻 userDeailts: %j", usersDetails);
 
 					// Get user details
 					let filteredUsers = usersDetails.filter(
@@ -190,43 +181,16 @@ let isValidForm = (form) => {
 
 let createUserPermissions = (form) => {
 	let permissions = [...form.user.permissions];
-	// if (form.perm_view_sub) {
-	//   permissions.push(permissionConstants.VIEW_SUB);
-	// }
-	// if (form.perm_create_sub) {
-	//   permissions.push(permissionConstants.CREATE_SUB);
-	// }
-	// if (form.perm_delete_sub) {
-	//   permissions.push(permissionConstants.DELETE_SUB);
-	// }
-	// if (form.perm_update_sub) {
-	//   permissions.push(permissionConstants.UPDATE_SUB);
-	// }
-	// if (form.perm_view_mov) {
-	//   permissions.push(permissionConstants.VIEW_MOVIES);
-	// }
-	// if (form.perm_create_mov) {
-	//   permissions.push(permissionConstants.CREATE_MOVIES);
-	// }
-	// if (form.perm_delete_mov) {
-	//   permissions.push(permissionConstants.DELETE_MOVIES);
-	// }
-	// if (form.perm_update_mov) {
-	//   permissions.push(permissionConstants.UPDATE_MOVIES);
-	// }
 	return permissions;
 };
 
 exports.checkUserForm = (form, isNewUser) => {
 	return new Promise(async (resolve, reject) => {
-		console.log("👻 received form: %j", form);
 		let formValidationResult = isValidForm(form);
-		console.log("👻 form valid? " + formValidationResult);
 
 		if (formValidationResult != "ok") {
 			resolve(formValidationResult);
 		} else {
-			// let permissions = createUserPermissions(form);
 			userLoginModel.find(
 				{ Username: form.user.username },
 				async (err, res) => {
@@ -255,20 +219,9 @@ exports.checkUserForm = (form, isNewUser) => {
 										session_timeout: Number(form.user.session_timeout),
 									});
 									resolve("ok");
-									// let user = {
-									//   id: user._id,
-									//   username: form.user.username,
-									//   first_name: form.user.first_name,
-									//   last_name: form.user.last_name,
-									//   created_date: Date.now(),
-									//   session_timeout: Number(form.user.session_timeout),
-									//   permissions: form.user.permissions
-									// }
-									// resolve(user)
 								}
 							});
 						} else {
-							console.log("👻 res after update: %j", res);
 							let user = res[0];
 							await usersPermissionsDAL.addUser({
 								id: user._id,
@@ -298,7 +251,6 @@ exports.deleteUser = (id) => {
 			if (err) {
 				reject(err);
 			}
-			console.log("👻 deleted from db");
 		});
 
 		// Remove from user details JSON

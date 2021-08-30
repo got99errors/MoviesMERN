@@ -6,7 +6,6 @@ var usersBL = require('../BL/usersBL')
 let didSessionExpire = (session) => {return false;
 	if (session.cookie.expires == null) { return true;}
 	  let timeToExpire = (Date.parse(session.cookie.expires) - Date.now())/1000;
-	  console.log('👻 timeToExpire: '+timeToExpire);
 	  return timeToExpire == null ||timeToExpire == 'undefined' || timeToExpire < 0;
   }
 
@@ -17,7 +16,6 @@ router.get('/', async function(req, res, next) {
 	} else  
   if (req.session !== undefined && req.session.username) {
     let user = usersBL.sessionUser(req.session);
-    console.log('👻 user: %j',user);
     let errorMessage = ""
     if (req.query.error) {
       errorMessage = req.query.error;

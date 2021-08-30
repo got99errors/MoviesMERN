@@ -63,8 +63,6 @@ const MemberContainerComp = (props: any) => {
 
 	useEffect(() => {
 		addedSuccessfully();
-		console.log("MembersCont useEff[props]");
-		
 	}, [props]);
 
 	return (

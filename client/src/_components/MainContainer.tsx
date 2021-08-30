@@ -36,17 +36,13 @@ const MainContainerComp = () => {
 			const millisecondsLeft =
 				new Date().setTime(Number(localStorage.getItem("session_timeout"))) -
 				new Date().getTime();
-			console.log("setting logout timeout");
 			let timeoutID = setTimeout(() => {
 				dispatch(userActions.logout());
 			}, millisecondsLeft);
 			return () => {
-				console.log("clearing timeout");
 				clearTimeout(timeoutID);
 			};
 		}
-		console.log("Re-rendered!");
-		
 	}, [user, dispatch]);
 
 	useEffect(() => {
@@ -56,7 +52,6 @@ const MainContainerComp = () => {
 	}, [dispatch]);
 	
 	const hasUser = localStorage.getItem("user") != null;
-	console.log("has user? " + hasUser);
 
 	return (
 		<div className={classes.root}>

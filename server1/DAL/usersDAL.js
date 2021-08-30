@@ -29,10 +29,7 @@ exports.saveItems = (items) => {
 exports.addUser = (user) => {
     return new Promise ( async (resolve, reject) => {
         let users = await this.getItems();
-        console.log('👻 current users: %j', users);
         let filteredUsers = users.filter(aUser => aUser.id != user.id);
-        console.log('👻 filtered users: %j', filteredUsers);
-        
         filteredUsers.push(user);
         this.saveItems(filteredUsers);
         resolve("ok");

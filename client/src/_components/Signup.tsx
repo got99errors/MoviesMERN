@@ -60,7 +60,6 @@ export default function SignupComp() {
 		} else {
 			// Submit login details
 			setErrorMessage("");
-			console.log("sign up submit: " + username + " pass: " + password);
 
 			// get return url from location state or default to home page
 			const { from } = location.state || { from: { pathname: "/login" } };

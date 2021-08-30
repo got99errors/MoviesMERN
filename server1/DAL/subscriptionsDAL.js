@@ -4,7 +4,6 @@ const dal = require('../configs/DAL')
 const sourcePath = dal.base_url + '/subscriptions';
 
 exports.getAllSubscriptions = () => {
-    console.log('👻 getting subscriptions');
     return new Promise(async (resolve, reject) => {
         let res = await axios.get(sourcePath);
         if (res.data) {
@@ -16,7 +15,6 @@ exports.getAllSubscriptions = () => {
 }
 
 exports.subscribeToMovie = (subId, movieId, date) => {
-    console.log('👻 ');
     return new Promise(async (resolve, reject) => {
         let res = await axios.put(sourcePath+"/"+subId, {movieId: movieId, date: date});
         if (res.data) {
@@ -30,8 +28,6 @@ exports.subscribeToMovie = (subId, movieId, date) => {
 // update all subscriptions after a movie is removed from the website's movies section
 exports.removeMovie = (movieId) => {
     return new Promise(async (resolve, reject) => {
-        console.log('👻 Removing movie '+movieId);
-        
         let res = await axios.put(sourcePath+"/removeMovie/"+movieId);
         if (res.data) {
             resolve(res.data);
@@ -44,8 +40,6 @@ exports.removeMovie = (movieId) => {
 // update all subscriptions after a member is removed from the website's members section
 exports.removeMember = (memberId) => {
     return new Promise(async (resolve, reject) => {
-        console.log('👻 Removing member '+memberId);
-        
         let res = await axios.put(sourcePath+"/removeMember/"+memberId);
         if (res.data) {
             resolve(res.data);

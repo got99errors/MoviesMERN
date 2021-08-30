@@ -28,7 +28,6 @@ const MoviesComp = (props: any) => {
 	const canUpdateMovie = user.permissions.includes(
 		permissionConstants.UPDATE_MOVIE
 	);
-	console.log("user: %j", user);
 	
 	if (movies !== undefined) {
 		// handle single movie display
@@ -67,7 +66,6 @@ const MoviesComp = (props: any) => {
 			handleClick();
 			setDeleted(false);
 		}
-		console.log("Movies useEff[movies]");
 	}, [movies]);
 
 	const editMovie = (movie: any) => {

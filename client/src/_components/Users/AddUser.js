@@ -74,7 +74,6 @@ const AddUserComp = (props) => {
 		let targetUser = users.find((aUser) => aUser.id === props.editedUser.id);
 
 		if (targetUser) {
-			console.log("targetUser.created_date: %j", targetUser.created_date);
 			user = {
 				fn: targetUser.first_name,
 				ln: targetUser.last_name,
