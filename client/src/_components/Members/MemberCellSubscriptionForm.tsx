@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import { Select, Grid } from "@material-ui/core";
-import { Movie, MovieSubscription } from "../../BL/utils";
+import { Movie } from "../../BL/movie.utils";
+import { MovieSubscription } from "../../BL/member.utils";
 import { memberActions } from "../../_actions/members.actions";
 import { movieActions } from "../../_actions/movies.actions"
 import { useFormik } from "formik";

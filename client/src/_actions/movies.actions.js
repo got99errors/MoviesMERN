@@ -1,5 +1,5 @@
 import { moviesConstants } from '../_constants/movies.actions';
-import { movieService } from '../BL/utils';
+import { movieService } from '../BL/movie.utils';
 
 export const movieActions = {
     getMovies,

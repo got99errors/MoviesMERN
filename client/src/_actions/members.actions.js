@@ -1,5 +1,5 @@
 import { membersConstants } from '../_constants/members.actions';
-import { memberService } from '../BL/utils';
+import { memberService } from '../BL/member.utils';
 
 export const memberActions = {
     getMembers,
@@ -27,7 +27,6 @@ function subscribeToMovie(subscription, moviesCallback) {
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    // dispatch(alertActions.error(error.toString()));
                 }
             );
     };

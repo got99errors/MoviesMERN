@@ -1,5 +1,5 @@
 import { userConstants } from "../_constants/users.actions";
-import { userService } from "../BL/utils";
+import { userService } from "../BL/user.utils";
 import { history } from "../_helpers/history";
 
 export const userActions = {
