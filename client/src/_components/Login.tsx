@@ -2,7 +2,16 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userActions } from "../_actions/user.actions";
-import {Avatar, Button, CssBaseline, TextField, Link, Grid, Typography, Container} from "@material-ui/core";
+import {
+	Avatar,
+	Button,
+	CssBaseline,
+	Link,
+	Grid,
+	Typography,
+	Container,
+} from "@material-ui/core";
+import LoginTextField from "./LoginTextField";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -26,16 +35,18 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const LoginComp = (props: any) => {
+const LoginComp = () => {
 	const [inputs, setInputs] = useState({
 		username: "",
-		password: "current-password",
+		password: "",
 	});
 	const { username, password } = inputs;
 	const dispatch = useDispatch();
 	const location = useLocation();
 	const error = useSelector((state: any) => state.authReducer.error);
-	const [errorMessage, setErrorMessage] = useState(error);
+	const [loginErrorMessage, setLoginErrorMessage] = useState(error);
+	const [usernameErrorMessage, setUsernameErrorMessage] = useState("")
+	const [passwordErrorMessage, setPasswordErrorMessage] = useState("")
 	const classes = useStyles();
 
 	const onChangeHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,22 +61,40 @@ const LoginComp = (props: any) => {
 		}
 	}, [dispatch]);
 
+	useEffect(() => {
+		setLoginErrorMessage(error);
+	}, [error]);
+
+	const resetErrorMessages = () => {
+		if (usernameErrorMessage) {
+			setUsernameErrorMessage("");
+		}
+		if (passwordErrorMessage) {
+			setPasswordErrorMessage("");
+		}
+		if (loginErrorMessage) {
+			setLoginErrorMessage("")
+		}
+	};
+
 	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		resetErrorMessages();
+
 		// Check input
 		if (!username) {
-			setErrorMessage("Enter username");
+			setUsernameErrorMessage("Enter a username");
 		} else if (!password) {
-			setErrorMessage("Enter password");
+			setPasswordErrorMessage("Enter a password");
 		} else {
 			// Submit login details
-			setErrorMessage("");
-
+			resetErrorMessages()
 			// get return url from location state or default to home page
 			const { from } = location.state || { from: { pathname: "/" } };
 			dispatch(userActions.login(username, password, from));
 		}
 	};
+
 	return (
 		<div>
 			<Container component="main" maxWidth="xs">
@@ -78,30 +107,19 @@ const LoginComp = (props: any) => {
 						Sign in
 					</Typography>
 					<form className={classes.form} noValidate onSubmit={onSubmit}>
-						<TextField
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
+						<Typography component="div" variant="caption" color="error">
+							{error}
+						</Typography>
+						<LoginTextField 
 							id="username"
-							label="Username"
-							name="username"
-							autoComplete="username"
-							autoFocus
 							onChange={onChangeHandle}
-							helperText={error}
+							helperText={usernameErrorMessage}
 						/>
-						<TextField
-							variant="outlined"
-							margin="normal"
-							required
-							fullWidth
-							name="password"
-							label="Password"
-							type="password"
+						<LoginTextField 
 							id="password"
-							autoComplete="current-password"
 							onChange={onChangeHandle}
+							autoComplete="current-password"
+							helperText={passwordErrorMessage}
 						/>
 						<Button
 							type="submit"

@@ -2,7 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { userActions } from "../_actions/user.actions";
 import { useDispatch, useSelector } from "react-redux";
-import {Link, Grid, Typography, Container, TextField, CssBaseline, Button, Avatar} from "@material-ui/core";
+import {
+	Link,
+	Grid,
+	Typography,
+	Container,
+	TextField,
+	CssBaseline,
+	Button,
+	Avatar,
+} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -23,10 +32,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	submit: {
 		margin: theme.spacing(3, 0, 2),
-  },
-  error: {
-    color: "red"
-  }
+	},
+	error: {
+		color: "red",
+	},
 }));
 
 export default function SignupComp() {
@@ -38,7 +47,7 @@ export default function SignupComp() {
 	let history = useHistory();
 	const location = useLocation();
 	const error = useSelector((state: any) => state.authReducer.error);
-	const signedUp = useSelector((state: any) => state.authReducer.signedUp)
+	const signedUp = useSelector((state: any) => state.authReducer.signedUp);
 	const [errorMessage, setErrorMessage] = useState(error);
 	console.error("SignupComp error: %j", error);
 	const classes = useStyles();
@@ -51,7 +60,7 @@ export default function SignupComp() {
 	const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const { username, password } = inputs;
-		
+
 		// Check input
 		if (!username) {
 			setErrorMessage("Enter username");
@@ -69,9 +78,9 @@ export default function SignupComp() {
 
 	useEffect(() => {
 		if (signedUp === true) {
-			history.push("/login")
+			history.push("/login");
 		}
-	},[signedUp,history])
+	}, [signedUp, history]);
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -85,8 +94,8 @@ export default function SignupComp() {
 				</Typography>
 				<form className={classes.form} noValidate onSubmit={onSubmit}>
 					<Grid container spacing={2}>
-          <Grid item className={classes.error}>
-								{error}
+						<Grid item className={classes.error}>
+							{error}
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
@@ -96,10 +105,11 @@ export default function SignupComp() {
 								id="username"
 								label="Username"
 								name="username"
-								autoComplete="off" onFocus={(event) => {
-									event.target.setAttribute('autocomplete', 'off');
-								  }}
-                onChange={onChangeHandle}
+								autoComplete="off"
+								onFocus={(event) => {
+									event.target.setAttribute("autocomplete", "off");
+								}}
+								onChange={onChangeHandle}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -111,8 +121,8 @@ export default function SignupComp() {
 								label="Password"
 								type="password"
 								id="password"
-                helperText={errorMessage}
-                onChange={onChangeHandle}
+								helperText={errorMessage}
+								onChange={onChangeHandle}
 							/>
 						</Grid>
 					</Grid>
