@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 import LoginComp from "./Login";
 import LogoutComp from "./Logout";
 import IndexComp from "./Index";
@@ -29,6 +29,7 @@ const MainContainerComp = () => {
 	const classes = useStyles(theme);
 	const dispatch = useDispatch();
 	let user = useSelector((state: any) => state.authReducer.user);
+	let history = useHistory();
 
 	useEffect(() => {
 		if (user) {
@@ -39,6 +40,9 @@ const MainContainerComp = () => {
 			let timeoutID = setTimeout(() => {
 				dispatch(userActions.logout());
 			}, millisecondsLeft);
+			
+			history.push("/movies");
+
 			return () => {
 				clearTimeout(timeoutID);
 			};
@@ -59,10 +63,9 @@ const MainContainerComp = () => {
 
 			<Switch>
 				<PrivateRoute exact path="/" component={IndexComp} />
-				<PrivateRoute exact path="/index" component={IndexComp} />
+				<PrivateRoute exact path="/movies" component={MoviesComp} />
 				{!hasUser && <Route path="/create_account" component={SignupComp} />}
 				{!hasUser && <Route path="/login" component={LoginComp} />}
-				<PrivateRoute exact path="/movies" component={MoviesComp} />
 				<PrivateRoute path="/movies/:movieId" component={MoviesComp} />
 				<PrivateRoute exact path="/subscriptions" component={MembersComp} />
 				<PrivateRoute path="/subscriptions/:memberId" component={MembersComp} />
