@@ -1,20 +1,9 @@
 import { handleResponse } from './utils'
+import { Member } from '../_domains/member'
+import { NewSubscription } from '../_domains/subscription';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
-interface MemberMovie {
-	id: string;
-	title: string;
-	date: string;
-}
-
-interface Member {
-	id: string;
-	name: string;
-	email: string;
-	city: string;
-	movies: MemberMovie[];
-}
 
 export const memberService = {
 	getMembers,
@@ -78,13 +67,7 @@ function updateMember(member: Member) {
 		});
 }
 
-export interface MovieSubscription {
-	subId: string;
-	movieId: string;
-	date: string;
-}
-
-function subscribeToMovie(movieSubscription: MovieSubscription) {
+function subscribeToMovie(movieSubscription: NewSubscription) {
 	const requestOptions = {
 		method: "POST",
 		headers: { "Content-Type": "application/json" },

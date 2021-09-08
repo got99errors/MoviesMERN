@@ -3,7 +3,7 @@ import { Button } from "@material-ui/core";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Movie } from "../../BL/movie.utils";
-import { MovieSubscription } from "../../BL/member.utils";
+import { MovieSubscription } from '../../_domains/subscription'
 import { Link } from "react-router-dom";
 import SubscriptionForm from "./MemberCellSubscriptionForm";
 import Grid from "@material-ui/core/Grid";

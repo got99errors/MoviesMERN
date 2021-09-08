@@ -7,6 +7,7 @@ import { memberActions } from "../../_actions/members.actions";
 import { menuActions } from '../../_actions/menu.actions'
 import { createStyles, fade, Theme, makeStyles } from '@material-ui/core/styles';
 import { User, canCreateSubscription } from '../../_domains/user'
+import { Member } from '../../_domains/member'
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -41,10 +42,10 @@ const MemberContainerComp = (props: any) => {
 	const [value, setValue] = useState(0);
 	const [searchValue, setSearchValue] = useState("");
 	const dispatch = useDispatch();
-	const editedMember = useSelector(
+	const editedMember: Member = useSelector(
 		(state: any) => state.membersReducer.editedMember
 	);
-	const members = useSelector((state: any) => state.membersReducer.members);
+	const members: Member[] = useSelector((state: any) => state.membersReducer.members);
 	const user: User = useSelector((state: any) => state.authReducer.user)
 
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

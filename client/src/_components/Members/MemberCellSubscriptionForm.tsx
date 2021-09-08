@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import { Select, Grid } from "@material-ui/core";
 import { Movie } from "../../BL/movie.utils";
-import { MovieSubscription } from "../../BL/member.utils";
+import { MovieSubscription } from "../../_domains/subscription";
 import { memberActions } from "../../_actions/members.actions";
 import { movieActions } from "../../_actions/movies.actions"
 import { useFormik } from "formik";
@@ -36,6 +36,11 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
+
+interface SubscriptionFormDateValues {
+	date: Date|undefined;
+  }
+
 const SubscriptionForm = (props: any) => {
 	const classes = useStyles();
 	const member = props.member;
@@ -52,8 +57,9 @@ const SubscriptionForm = (props: any) => {
 	let subDate: Date;
 	const [subError, setSubError] = useState("");
 	const dispatch = useDispatch();
+	const initialValues: SubscriptionFormDateValues = { date: undefined };
 	const formik = useFormik({
-		initialValues: { date: undefined },
+		initialValues,
 		enableReinitialize: true,
 		validationSchema: Yup.object({
 			date: Yup.date()
@@ -92,6 +98,7 @@ const SubscriptionForm = (props: any) => {
 				memberActions.subscribeToMovie({
 					subId: member.subId,
 					movieId: movieId,
+					date: subDate
 				}, (() => dispatch(movieActions.getMovies())))
 			);
 		}
@@ -101,7 +108,7 @@ const SubscriptionForm = (props: any) => {
 		if (movies.length > 0) {
 			setMovieId(movies[0].id);
 		}
-	}, [member]);
+	}, [setMovieId]);
 
 	return (
 		<Grid

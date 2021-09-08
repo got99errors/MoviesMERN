@@ -6,12 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import MemberCellComp from "./MemberCell";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { Member } from '../../_domains/member'
 
 function Alert(props: AlertProps) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const MembersComp = (props: any) => {
+interface MembersProps {
+	members: Member[],
+	search: string
+}
+
+const MembersComp = (props: MembersProps) => {
 	const members = props.members;
 	let filteredMembers = members;
 	const dispatch = useDispatch();
@@ -27,7 +33,7 @@ const MembersComp = (props: any) => {
 		props.members.length > 0
 	) {
 		filteredMembers = props.members.filter(
-			(member: any) => member.id === memberId
+			(member: Member) => member.id === memberId
 		);
 	}
 
@@ -50,7 +56,7 @@ const MembersComp = (props: any) => {
 		}
 	}, [filteredMembers, deleted]);
 
-	const editMember = (member: any) => {
+	const editMember = (member: Member) => {
 		dispatch(memberActions.editMember(member));
 	};
 
@@ -63,7 +69,7 @@ const MembersComp = (props: any) => {
 
 	return (
 		<>
-			{filteredMembers?.map((member: any, index: number) => (
+			{filteredMembers?.map((member: Member, index: number) => (
 				<MemberCellComp
 					key={index}
 					member={member}
