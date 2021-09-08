@@ -42,8 +42,7 @@ exports.getAllMembers = () => {
 exports.subscribeToMovie = (data) => {
     return new Promise (async (resolve, reject) => {
         try {
-            const date = new Date();
-            let subs = await subscriptionsDAL.subscribeToMovie(data.subId, data.movieId, date);
+            await subscriptionsDAL.subscribeToMovie(data.subId, data.movieId, data.date);
             resolve("ok");
         }
         catch(err) {
