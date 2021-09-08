@@ -6,7 +6,6 @@ import { Movie } from "../../BL/movie.utils";
 import { MovieSubscription } from "../../BL/member.utils";
 import { Link } from "react-router-dom";
 import SubscriptionForm from "./MemberCellSubscriptionForm";
-import { permissionConstants } from "../../_constants/permissions.constants";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -14,6 +13,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import CellBottomButtonsComp from "../CellBottomButtons";
+import { User, canCreateSubscription, canViewMovie, canDeleteSubscription, canUpdateSubscription} from '../../_domains/user'
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -58,14 +58,7 @@ const MemberCellComp = (props: any) => {
 	const member = props.member;
 	const [displaySelectionBox, setDisplaySelectionBox] = useState(false);
 	const allMovies = useSelector((state: any) => state.moviesReducer.movies);
-	const permissions = props.user.permissions;
-	const canViewMovies = permissions.includes(permissionConstants.VIEW_MOVIE);
-	const canDeleteSubscription = permissions.includes(
-		permissionConstants.DELETE_SUB
-	);
-	const canUpdateSubscription = permissions.includes(
-		permissionConstants.UPDATE_SUB
-	);
+	const user: User = props.user;
 
 	// Remove movies the user has already subscribed to.
 	const movies =
@@ -122,7 +115,7 @@ const MemberCellComp = (props: any) => {
 								: "[Haven't watched any movie yet]"}
 						</strong>
 					</Typography>
-					{permissions.includes(permissionConstants.CREATE_SUB) && (
+					{canCreateSubscription(user) && (
 						<Button
 							className={classes.button}
 							color="primary"
@@ -145,7 +138,7 @@ const MemberCellComp = (props: any) => {
 						>
 							{member.movies.map((movie: any, index: number) => (
 								<ListItem key={index} className={classes.listItem}>
-									{canViewMovies ? (
+									{canViewMovie(user) ? (
 										<Link className={classes.link} to={`/movies/${movie.id}`}>
 											<ListItemText style={{ paddingRight: "5px" }}>
 												{movie && movie.title}
@@ -164,8 +157,8 @@ const MemberCellComp = (props: any) => {
 				</Grid>
 				<Grid item style={{ width: "100%", marginTop: "10px" }}>
 					<CellBottomButtonsComp
-						canEdit={canUpdateSubscription}
-						canDelete={canDeleteSubscription}
+						canEdit={canUpdateSubscription(user)}
+						canDelete={canDeleteSubscription(user)}
 						edit={() => props.edit({ ...member })}
 						delete={() => props.delete(member.id)}
 					/>

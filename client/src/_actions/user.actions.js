@@ -1,6 +1,5 @@
 import { userConstants } from "../_constants/users.actions";
 import { userService } from "../BL/user.utils";
-import { history } from "../_helpers/history";
 
 export const userActions = {
 	login,
@@ -22,7 +21,6 @@ function login(username, password, from) {
 			(user) => {
 				if (!user.error) {
 					dispatch(success(user));
-					history.push("/index");
 				} else {
 					dispatch(failure(user.error));
 				}

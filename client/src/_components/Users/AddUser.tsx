@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../_actions/user.actions";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { permissionConstants } from "../../_constants/permissions.constants";
+import * as UserDomain from "../../_domains/user";
 import {
 	TextField,
 	Button,
@@ -43,18 +44,34 @@ const useStyles = makeStyles((theme) =>
 			width: "100%",
 		},
 		buttonGridItem: {
-			width: "45%"
-		}
+			width: "45%",
+		},
 	})
 );
 
+type FormUserType = {
+	fn: string;
+	ln: string;
+	username: string;
+	timeout: number;
+	created_date: string | null;
+	viewsub: boolean;
+	createsub: boolean;
+	updatesub: boolean;
+	deletesub: boolean;
+	viewmovie: boolean;
+	createmovie: boolean;
+	updatemovie: boolean;
+	deletemovie: boolean;
+};
+
 // todo: don't submit w/o minimum 1 permission
-const AddUserComp = (props) => {
+const AddUserComp = (props: any) => {
 	const dispatch = useDispatch();
 	const users = props.users;
 	const [redirect, setRedirect] = useState(false);
 	const classes = useStyles();
-	let user = {
+	let user: FormUserType = {
 		fn: "",
 		ln: "",
 		username: "",
@@ -71,7 +88,9 @@ const AddUserComp = (props) => {
 	};
 
 	if (props.editedUser) {
-		let targetUser = users.find((aUser) => aUser.id === props.editedUser.id);
+		let targetUser: UserDomain.User = users.find(
+			(aUser: UserDomain.User) => aUser.id === props.editedUser.id
+		);
 
 		if (targetUser) {
 			user = {
@@ -79,7 +98,6 @@ const AddUserComp = (props) => {
 				ln: targetUser.last_name,
 				username: targetUser.username,
 				timeout: targetUser.session_timeout,
-				viewsub: targetUser.permissions.includes(permissionConstants.VIEW_SUB),
 				created_date: targetUser.created_date
 					? new Date(targetUser.created_date).toLocaleDateString("en-gb", {
 							year: "numeric",
@@ -87,27 +105,14 @@ const AddUserComp = (props) => {
 							day: "numeric",
 					  })
 					: null,
-				createsub: targetUser.permissions.includes(
-					permissionConstants.CREATE_SUB
-				),
-				updatesub: targetUser.permissions.includes(
-					permissionConstants.UPDATE_SUB
-				),
-				deletesub: targetUser.permissions.includes(
-					permissionConstants.DELETE_SUB
-				),
-				viewmovie: targetUser.permissions.includes(
-					permissionConstants.VIEW_MOVIE
-				),
-				createmovie: targetUser.permissions.includes(
-					permissionConstants.CREATE_MOVIE
-				),
-				updatemovie: targetUser.permissions.includes(
-					permissionConstants.UPDATE_MOVIE
-				),
-				deletemovie: targetUser.permissions.includes(
-					permissionConstants.DELETE_MOVIE
-				),
+				viewsub: UserDomain.canViewSubscription(targetUser),
+				createsub: UserDomain.canCreateSubscription(targetUser),
+				updatesub: UserDomain.canUpdateSubscription(targetUser),
+				deletesub: UserDomain.canDeleteSubscription(targetUser),
+				viewmovie: UserDomain.canViewMovie(targetUser),
+				createmovie: UserDomain.canCreateMovie(targetUser),
+				updatemovie: UserDomain.canUpdateMovie(targetUser),
+				deletemovie: UserDomain.canDeleteMovie(targetUser),
 			};
 		}
 	}
@@ -135,6 +140,7 @@ const AddUserComp = (props) => {
 			if (hasSomePermission()) {
 				setRedirect(true);
 				const obj = {
+					id: undefined,
 					first_name: formik.values.fn,
 					last_name: formik.values.ln,
 					username: formik.values.username,
@@ -193,21 +199,26 @@ const AddUserComp = (props) => {
 		return perms;
 	};
 
-	const checkCheckbox = (e) => {
-		const eName = e.target.name;
-		const eValue = e.target.value;
+	interface CheckBoxTarget extends EventTarget {
+		name: string;
+		value: string;
+	}
+	const checkCheckbox:
+		| ((event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void)
+		| undefined = (e) => {
+		const fieldId = e.target.name;
+		let updates = { [e.target.id]: e.target.checked };
 
-		if (eValue === "false") {
-			if (["createsub", "deletesub", "updatesub"].includes(eName)) {
-				formik.setValues({ ...formik.values, viewsub: true }).then(() => {
-				});
+		if (e.target.checked) {
+			if (["createsub", "deletesub", "updatesub"].includes(fieldId)) {
+				updates = { ...updates, viewsub: true };
 			} else if (
-				["createmovie", "deletemovie", "updatemovie"].includes(eName)
+				["createmovie", "deletemovie", "updatemovie"].includes(fieldId)
 			) {
-				formik.setValues({ ...formik.values, viewmovie: true }).then(() => {
-				});
+				updates = { ...updates, viewmovie: true };
 			}
 		}
+		formik.setValues({ ...formik.values, ...updates });
 	};
 
 	// after a user add/edit, store refreshes 'users' in state
@@ -246,39 +257,40 @@ const AddUserComp = (props) => {
 					<Grid item className={classes.gridItem}>
 						<TextField
 							className={classes.gridItem}
-							error={formik.touched.fn && formik.errors.fn ? true : null}
+							error={formik.touched.fn && formik.errors.fn ? true : undefined}
 							id="fn"
-							name="fn"
 							label="First Name"
 							variant="outlined"
 							helperText={
 								formik.touched.fn && formik.errors.fn ? formik.errors.fn : null
 							}
 							{...formik.getFieldProps("fn")}
+							name="fn"
 						/>
 					</Grid>
 					<Grid item className={classes.gridItem}>
 						<TextField
 							className={classes.gridItem}
-							error={formik.touched.ln && formik.errors.ln ? true : null}
+							error={formik.touched.ln && formik.errors.ln ? true : undefined}
 							id="ln"
-							name="ln"
 							label="Last Name"
 							variant="outlined"
 							helperText={
 								formik.touched.ln && formik.errors.ln ? formik.errors.ln : null
 							}
 							{...formik.getFieldProps("ln")}
+							name="ln"
 						/>
 					</Grid>
 					<Grid item className={classes.gridItem}>
 						<TextField
 							className={classes.gridItem}
 							error={
-								formik.touched.username && formik.errors.username ? true : null
+								formik.touched.username && formik.errors.username
+									? true
+									: undefined
 							}
 							id="username"
-							name="username"
 							label="Username"
 							variant="outlined"
 							helperText={
@@ -287,16 +299,18 @@ const AddUserComp = (props) => {
 									: null
 							}
 							{...formik.getFieldProps("username")}
+							name="username"
 						/>
 					</Grid>
 					<Grid item className={classes.gridItem}>
 						<TextField
 							className={classes.gridItem}
 							error={
-								formik.touched.timeout && formik.errors.timeout ? true : null
+								formik.touched.timeout && formik.errors.timeout
+									? true
+									: undefined
 							}
 							id="timeout"
-							name="timeout"
 							label="Session Timeout"
 							variant="outlined"
 							helperText={
@@ -305,6 +319,7 @@ const AddUserComp = (props) => {
 									: null
 							}
 							{...formik.getFieldProps("timeout")}
+							name="timeout"
 						/>
 					</Grid>
 
@@ -315,21 +330,21 @@ const AddUserComp = (props) => {
 					)}
 					<Grid item className={classes.gridItem}>
 						<Grid container className={classes.gridItem}>
-						<Grid item className={classes.gridItem}>
-						<Typography variant="body1" gutterBottom>
-							<strong>Select Permissions:</strong>
-						</Typography>
-						</Grid>
+							<Grid item className={classes.gridItem}>
+								<Typography variant="body1" gutterBottom>
+									<strong>Select Permissions:</strong>
+								</Typography>
+							</Grid>
 							<Grid item className={classes.checkboxItem}>
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.viewsub === true ? true : false}
-											onClick={(e) => checkCheckbox(e)}
+											{...formik.getFieldProps("viewsub")}
 											name="viewsub"
+											onChange={checkCheckbox}
+											checked={formik.values.viewsub}
 											id="viewsub"
 											color="secondary"
-											{...formik.getFieldProps("viewsub")}
 										/>
 									}
 									label="View Subscriptions"
@@ -339,12 +354,12 @@ const AddUserComp = (props) => {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.viewmovie === true ? true : false}
-											onClick={(e) => checkCheckbox(e)}
-											name="viewmovie"
+											{...formik.getFieldProps("viewmovie")}
+											checked={formik.values.viewmovie}
 											id="viewmovie"
 											color="secondary"
-											{...formik.getFieldProps("viewmovie")}
+											name="viewmovie"
+											onChange={checkCheckbox}
 										/>
 									}
 									label="View Movies"
@@ -354,12 +369,12 @@ const AddUserComp = (props) => {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.createsub === true ? true : false}
-											onClick={(e) => checkCheckbox(e)}
-											name="createsub"
+											{...formik.getFieldProps("createsub")}
+											checked={formik.values.createsub}
 											id="createsub"
 											color="secondary"
-											{...formik.getFieldProps("createsub")}
+											name="createsub"
+											onChange={checkCheckbox}
 										/>
 									}
 									label="Create Subscriptions"
@@ -370,14 +385,12 @@ const AddUserComp = (props) => {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={
-												formik.values.createmovie === true ? true : false
-											}
-											onClick={(e) => checkCheckbox(e)}
-											name="createmovie"
+											{...formik.getFieldProps("createmovie")}
+											checked={formik.values.createmovie}
 											id="createmovie"
 											color="secondary"
-											{...formik.getFieldProps("createmovie")}
+											name="createmovie"
+											onChange={checkCheckbox}
 										/>
 									}
 									label="Create Movies"
@@ -387,12 +400,12 @@ const AddUserComp = (props) => {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.updatesub === true ? true : false}
-											onClick={(e) => checkCheckbox(e)}
-											name="updatesub"
+											{...formik.getFieldProps("updatesub")}
+											checked={formik.values.updatesub}
 											id="updatesub"
 											color="secondary"
-											{...formik.getFieldProps("updatesub")}
+											name="updatesub"
+											onChange={checkCheckbox}
 										/>
 									}
 									label="Update Subscriptions"
@@ -402,14 +415,12 @@ const AddUserComp = (props) => {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={
-												formik.values.updatemovie === true ? true : false
-											}
-											onClick={(e) => checkCheckbox(e)}
-											name="updatemovie"
+											{...formik.getFieldProps("updatemovie")}
+											checked={formik.values.updatemovie}
 											id="updatemovie"
 											color="secondary"
-											{...formik.getFieldProps("updatemovie")}
+											name="updatemovie"
+											onChange={checkCheckbox}
 										/>
 									}
 									label="Update Movies"
@@ -419,12 +430,12 @@ const AddUserComp = (props) => {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={formik.values.deletesub === true ? true : false}
-											onClick={(e) => checkCheckbox(e)}
-											name="deletesub"
+											{...formik.getFieldProps("deletesub")}
+											checked={formik.values.deletesub}
 											id="deletesub"
 											color="secondary"
-											{...formik.getFieldProps("deletesub")}
+											name="deletesub"
+											onChange={checkCheckbox}
 										/>
 									}
 									label="Delete Subscriptions"
@@ -434,21 +445,19 @@ const AddUserComp = (props) => {
 								<FormControlLabel
 									control={
 										<Checkbox
-											checked={
-												formik.values.deletemovie === true ? true : false
-											}
-											onClick={(e) => checkCheckbox(e)}
-											name="deletemovie"
+											{...formik.getFieldProps("deletemovie")}
+											checked={formik.values.deletemovie}
 											id="deletemovie"
 											color="secondary"
-											{...formik.getFieldProps("deletemovie")}
+											name="deletemovie"
+											onChange={checkCheckbox}
 										/>
 									}
 									label="Delete Movies"
 								/>
 							</Grid>
 						</Grid>
-						</Grid>	
+					</Grid>
 					<Grid item className={classes.gridItem}>
 						<Grid container justify="space-evenly">
 							<Grid item className={classes.buttonGridItem}>

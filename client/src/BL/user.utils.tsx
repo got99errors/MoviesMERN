@@ -1,16 +1,7 @@
 import { handleResponse } from "./utils";
+import { User } from '../_domains/user'
 
 const baseURL = process.env.REACT_APP_BASE_URL;
-
-interface User {
-	id: string;
-	username: string;
-	first_name: string;
-	last_name: string;
-	created_date: Date;
-	session_timeout: Number;
-	permissions: string[];
-}
 
 export const userService = {
 	login,

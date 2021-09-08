@@ -7,7 +7,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useParams } from "react-router-dom";
 import {useSelector} from 'react-redux'
-import { permissionConstants } from "../../_constants/permissions.constants";
+import { User, canViewSubscription, canDeleteMovie, canUpdateMovie } from '../../_domains/user'
 
 function Alert(props: AlertProps) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -18,16 +18,7 @@ const MoviesComp = (props: any) => {
 	let { movieId } = useParams<{ movieId: string }>();
 	const movies = props.movies;
 	let filteredMovies = movies;
-	let user = useSelector((state: any) => state.authReducer.user)
-	const canViewSubscription = user.permissions.includes(
-		permissionConstants.VIEW_SUB
-	);
-	const canDeleteMovie = user.permissions.includes(
-		permissionConstants.DELETE_MOVIE
-	);
-	const canUpdateMovie = user.permissions.includes(
-		permissionConstants.UPDATE_MOVIE
-	);
+	let user: User = useSelector((state: any) => state.authReducer.user)
 	
 	if (movies !== undefined) {
 		// handle single movie display
@@ -85,10 +76,9 @@ const MoviesComp = (props: any) => {
 					movie={movie}
 					edit={editMovie}
 					delete={deleteMovie}
-					permissions={user.permissions}
-					canViewSubscription={canViewSubscription}
-					canDeleteMovie={canDeleteMovie}
-					canUpdateMovie={canUpdateMovie}
+					canViewSubscription={canViewSubscription(user)}
+					canDeleteMovie={canDeleteMovie(user)}
+					canUpdateMovie={canUpdateMovie(user)}
 				/>
 			))}
 			<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>

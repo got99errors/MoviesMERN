@@ -26,7 +26,6 @@ function getMovies() {
 	return fetch(`${baseURL}/movies`, requestOptions)
 		.then(handleResponse)
 		.then((movies) => {
-			console.log('movies',movies);
 			return movies;
 		});
 }

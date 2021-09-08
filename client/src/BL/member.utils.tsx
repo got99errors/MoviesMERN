@@ -29,7 +29,7 @@ function getMembers() {
 		method: "GET",
 		headers: { "Content-Type": "application/json" },
 	};
-	console.log(`url: ${baseURL}/members`);
+	
 	return fetch(`${baseURL}/members`, requestOptions)
 		.then(handleResponse)
 		.then((members) => {

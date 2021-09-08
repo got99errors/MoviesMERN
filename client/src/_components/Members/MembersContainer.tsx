@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { memberActions } from "../../_actions/members.actions";
 import { menuActions } from '../../_actions/menu.actions'
 import { createStyles, fade, Theme, makeStyles } from '@material-ui/core/styles';
-import {permissionConstants} from '../../_constants/permissions.constants'
+import { User, canCreateSubscription } from '../../_domains/user'
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -45,8 +45,7 @@ const MemberContainerComp = (props: any) => {
 		(state: any) => state.membersReducer.editedMember
 	);
 	const members = useSelector((state: any) => state.membersReducer.members);
-	const user = useSelector((state: any) => state.authReducer.user)
-	const canCreateMember = user.permissions.includes(permissionConstants.CREATE_SUB);
+	const user: User = useSelector((state: any) => state.authReducer.user)
 
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
 		setValue(newValue);
@@ -77,7 +76,7 @@ const MemberContainerComp = (props: any) => {
 							centered
 						>
 							<Tab label="All Members" {...a11yProps(0)} />
-							{canCreateMember && <Tab label="Add Member" {...a11yProps(1)} />}
+							{canCreateSubscription(user) && <Tab label="Add Member" {...a11yProps(1)} />}
 						</Tabs>
 					</AppBar>
 					<TabPanel value={value} index={0}>

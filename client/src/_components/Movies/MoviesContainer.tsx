@@ -8,8 +8,7 @@ import { menuActions } from '../../_actions/menu.actions'
 import InputBase from '@material-ui/core/InputBase';
 import { createStyles, fade, Theme, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
-import {permissionConstants} from '../../_constants/permissions.constants'
-// import { createSelector } from 'reselect'
+import { User, canCreateMovie} from '../../_domains/user'
 
 const useStyles = makeStyles((theme: Theme) =>
 createStyles({
@@ -68,8 +67,8 @@ createStyles({
 
 interface TabPanelProps {
 	children?: React.ReactNode;
-	index: any;
-	value: any;
+	index: number;
+	value: number;
 }
 
 function TabPanel(props: TabPanelProps) {
@@ -103,8 +102,7 @@ const MovieContainerComp = (props: any) => {
 		(state: any) => state.moviesReducer.editedMovie
 	);
 	const movies = useSelector((state: any) => state.moviesReducer.movies);
-	const user = useSelector((state: any) => state.authReducer.user)
-	const canCreateMovie = user.permissions.includes(permissionConstants.CREATE_MOVIE);
+	const user: User = useSelector((state: any) => state.authReducer.user)
 	const classes = useStyles();
 
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -135,12 +133,12 @@ const MovieContainerComp = (props: any) => {
 							className={classes.tabs}
 							value={value}
 							onChange={handleChange}
-							aria-label="simple tabs example"
+							aria-label=""
 							centered
 							indicatorColor="secondary"
 						>
 							<Tab label="All Movies" {...a11yProps(0)} />
-							{canCreateMovie && <Tab label="Add Movie" {...a11yProps(1)} />}
+							{canCreateMovie(user) && <Tab label="Add Movie" {...a11yProps(1)} />}
 						</Tabs>
 						</Toolbar>
 
